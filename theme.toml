@@ -1,0 +1,14 @@
+name = "Walgo Biolink"
+license = "MIT"
+licenselink = "https://github.com/ganbitlabs/walgo-biolink/blob/main/LICENSE"
+description = "A lightweight link-in-bio theme for blockchain professionals. Deploy your identity on-chain via Walrus."
+homepage = "https://github.com/ganbitlabs/walgo-biolink"
+min_version = "0.112.0"
+
+[author]
+  name = "Walgo"
+  homepage = "https://github.com/ganbitlabs/walgo-biolink"
+
+[params]
+  features = ["dark mode", "wallet addresses", "badges", "project showcase", "social links", "responsive", "lightweight", "walrus-optimized", "5 card styles"]
+  tags = ["blockchain", "web3", "link-in-bio", "linktree", "single-page", "dark", "minimal", "walrus", "sui"]

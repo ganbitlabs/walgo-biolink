@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.LanguageCode | default "en" }}" data-theme="{{ .Site.Params.defaultTheme | default "dark" }}" data-card-style="{{ .Site.Params.cardStyle | default "default" }}">
+<head>
+  <script>
+    (function(){var k="walgo-biolink-theme",t=localStorage.getItem(k);if(t)document.documentElement.setAttribute("data-theme",t);else if(window.matchMedia&&window.matchMedia("(prefers-color-scheme:light)").matches)document.documentElement.setAttribute("data-theme","light");})();
+  </script>
+  {{- partial "head.html" . -}}
+</head>
+<body>
+  {{- block "main" . }}{{ end -}}
+  {{- $js := resources.Get "js/main.js" | minify | fingerprint -}}
+  <script defer src="{{ $js.RelPermalink }}"></script>
+</body>
+</html>

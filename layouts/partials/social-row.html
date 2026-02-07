@@ -1,0 +1,19 @@
+{{- $items := .Items -}}
+{{- with $items }}
+<nav class="social-row" aria-label="Social links">
+  {{- range . }}
+  <a class="social-row__link" href="{{ .url }}" target="_blank" rel="noopener noreferrer" aria-label="{{ .label | default .platform }}" title="{{ .label | default .platform }}">
+    {{- if or (hasPrefix .icon "/") (hasPrefix .icon "http") }}
+    <img src="{{ .icon }}" alt="{{ .label | default .platform }}" class="social-row__img">
+    {{- else }}
+    {{- $svgIcon := index $.Site.Data.icons.social .platform -}}
+    {{- with $svgIcon }}
+    <svg viewBox="{{ .viewBox }}" aria-hidden="true"><path d="{{ .path }}"/></svg>
+    {{- else }}
+    <span>{{ .label | default .platform }}</span>
+    {{- end }}
+    {{- end }}
+  </a>
+  {{- end }}
+</nav>
+{{- end }}

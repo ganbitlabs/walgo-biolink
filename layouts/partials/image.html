@@ -1,0 +1,22 @@
+{{- $item := .Items -}}
+{{- with $item.src }}
+{{- $alt := $item.alt | default "" -}}
+{{- $caption := $item.caption | default "" -}}
+{{- if $item.url }}
+<figure class="bio-image">
+  <a href="{{ $item.url }}" target="_blank" rel="noopener noreferrer">
+    <img src="{{ . }}" alt="{{ $alt }}" class="bio-image__img">
+  </a>
+  {{- with $caption }}
+  <figcaption class="bio-image__caption">{{ . }}</figcaption>
+  {{- end }}
+</figure>
+{{- else }}
+<figure class="bio-image">
+  <img src="{{ . }}" alt="{{ $alt }}" class="bio-image__img">
+  {{- with $caption }}
+  <figcaption class="bio-image__caption">{{ . }}</figcaption>
+  {{- end }}
+</figure>
+{{- end }}
+{{- end }}

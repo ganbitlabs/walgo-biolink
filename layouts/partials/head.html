@@ -1,0 +1,87 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ with .Site.Params.name }}{{ . }}{{ end }}{{ with .Site.Params.title }} &mdash; {{ . }}{{ end }}</title>
+<meta name="description" content="{{ .Site.Params.bio | default .Site.Params.title | default "" }}">
+{{- $favicon := .Site.Params.favicon | default "/favicon.svg" }}
+<link rel="icon" href="{{ $favicon | relURL }}" type="image/svg+xml">
+
+{{/* Open Graph */}}
+<meta property="og:title" content="{{ .Site.Params.name | default .Site.Title }}{{ with .Site.Params.title }} &mdash; {{ . }}{{ end }}">
+<meta property="og:description" content="{{ .Site.Params.bio | default "" }}">
+{{- with .Site.Params.avatar }}
+<meta property="og:image" content="{{ . | absURL }}">
+{{- end }}
+<meta property="og:url" content="{{ .Permalink }}">
+<meta property="og:type" content="profile">
+
+{{/* Twitter Card */}}
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="{{ .Site.Params.name | default .Site.Title }}">
+<meta name="twitter:description" content="{{ .Site.Params.bio | default "" }}">
+{{- with .Site.Params.avatar }}
+<meta name="twitter:image" content="{{ . | absURL }}">
+{{- end }}
+
+{{/* CSS — single bundle */}}
+{{- $css := resources.Get "css/main.css" | minify | fingerprint -}}
+<link rel="stylesheet" href="{{ $css.RelPermalink }}">
+
+{{/* Custom Fonts (opt-in) — loads from Google Fonts */}}
+{{- if .Site.Params.customFonts }}
+{{- $sansFont := .Site.Params.fontFamily | default "Inter" -}}
+{{- $monoFont := .Site.Params.monoFont | default "" -}}
+{{- $fontUrl := .Site.Params.fontUrl | default "" -}}
+{{- if $fontUrl }}
+<link rel="stylesheet" href="{{ $fontUrl }}">
+{{- else }}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+{{- $families := printf "%s:wght@400;500;600;700;800" (replace $sansFont " " "+") -}}
+{{- with $monoFont }}{{ $families = printf "%s&family=%s:wght@400;500;600;700" $families (replace . " " "+") }}{{ end -}}
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family={{ $families }}&display=swap">
+{{- end }}
+<style>
+  :root {
+    --font-sans: '{{ $sansFont }}', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    {{- with $monoFont }}
+    --font-mono: '{{ . }}', 'SF Mono', 'Cascadia Code', ui-monospace, monospace;
+    {{- end }}
+  }
+</style>
+{{- end }}
+
+{{/* Background Image (opt-in) */}}
+{{- with .Site.Params.backgroundImage }}
+<style>
+  body {
+    background-image: url('{{ . }}');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: var(--bg-0);
+    opacity: 0.85;
+  }
+</style>
+{{- end }}
+
+{{/* Custom Accent Color — derives all accent variants automatically */}}
+{{- with .Site.Params.accentColor }}
+<style>
+  :root,
+  [data-theme="light"] {
+    --accent: {{ . }};
+    --accent-hover: color-mix(in srgb, {{ . }}, white 25%);
+    --accent-muted: color-mix(in srgb, {{ . }}, transparent 85%);
+    --accent-subtle: color-mix(in srgb, {{ . }}, transparent 94%);
+    --border-accent: color-mix(in srgb, {{ . }}, transparent 70%);
+    --glow: color-mix(in srgb, {{ . }}, transparent 93%);
+  }
+</style>
+{{- end }}

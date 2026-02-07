@@ -1,0 +1,98 @@
+{{- define "main" -}}
+<main class="bio-container" style="position: relative;">
+  {{- partial "profile.html" . -}}
+
+  {{/* Sections — if params.sections is defined, use it for order + titles.
+       Otherwise, fall back to the default order.
+       Each section supports "key" to reference a different data array:
+         type = "badges", key = "tools" → reads params.tools with badges template */}}
+  {{- if .Site.Params.sections }}
+
+    {{- range .Site.Params.sections }}
+      {{- $type := .type | default "" }}
+      {{- $title := .title | default "" }}
+      {{- $key := .key | default $type }}
+      {{- $items := index $.Site.Params $key }}
+
+      {{- if eq $type "socials" }}
+        {{- with $items }}
+        {{- partial "social-row.html" (dict "Items" . "Site" $.Site) -}}
+        {{- end }}
+
+      {{- else if eq $type "wallets" }}
+        {{- with $items }}
+        <section class="bio-section" aria-labelledby="{{ $key }}-title">
+          <h2 class="bio-section__title" id="{{ $key }}-title">{{ $title | default "Wallets" }}</h2>
+          {{- partial "wallets.html" (dict "Items" . "Site" $.Site) -}}
+        </section>
+        {{- end }}
+
+      {{- else if eq $type "badges" }}
+        {{- $marquee := .marquee | default false }}
+        {{- with $items }}
+        {{- partial "badges.html" (dict "Items" . "Site" $.Site "Marquee" $marquee) -}}
+        {{- end }}
+
+      {{- else if eq $type "links" }}
+        {{- with $items }}
+        <section class="bio-section" aria-labelledby="{{ $key }}-title">
+          <h2 class="bio-section__title" id="{{ $key }}-title">{{ $title | default "Links" }}</h2>
+          {{- partial "links.html" (dict "Items" . "Site" $.Site) -}}
+        </section>
+        {{- end }}
+
+      {{- else if eq $type "projects" }}
+        {{- with $items }}
+        <section class="bio-section" aria-labelledby="{{ $key }}-title">
+          <h2 class="bio-section__title" id="{{ $key }}-title">{{ $title | default "Projects" }}</h2>
+          {{- partial "projects.html" (dict "Items" . "Site" $.Site) -}}
+        </section>
+        {{- end }}
+
+      {{- else if eq $type "text" }}
+        {{- with $items }}
+        <section class="bio-section" aria-labelledby="{{ $key }}-title">
+          {{- with $title }}<h2 class="bio-section__title" id="{{ $key }}-title">{{ . }}</h2>{{ end }}
+          {{- partial "text.html" (dict "Items" . "Site" $.Site) -}}
+        </section>
+        {{- end }}
+
+      {{- else if eq $type "image" }}
+        {{- with $items }}
+        {{- partial "image.html" (dict "Items" . "Site" $.Site) -}}
+        {{- end }}
+
+      {{- end }}
+    {{- end }}
+
+  {{- else }}
+    {{/* Default order (backward compatible) */}}
+    {{- with .Site.Params.socials }}
+    {{- partial "social-row.html" (dict "Items" . "Site" $.Site) -}}
+    {{- end }}
+    {{- with .Site.Params.wallets }}
+    <section class="bio-section" aria-labelledby="wallets-title">
+      <h2 class="bio-section__title" id="wallets-title">Wallets</h2>
+      {{- partial "wallets.html" (dict "Items" . "Site" $.Site) -}}
+    </section>
+    {{- end }}
+    {{- with .Site.Params.badges }}
+    {{- partial "badges.html" (dict "Items" . "Site" $.Site "Marquee" false) -}}
+    {{- end }}
+    {{- with .Site.Params.links }}
+    <section class="bio-section" aria-labelledby="links-title">
+      <h2 class="bio-section__title" id="links-title">Links</h2>
+      {{- partial "links.html" (dict "Items" . "Site" $.Site) -}}
+    </section>
+    {{- end }}
+    {{- with .Site.Params.projects }}
+    <section class="bio-section" aria-labelledby="projects-title">
+      <h2 class="bio-section__title" id="projects-title">Projects</h2>
+      {{- partial "projects.html" (dict "Items" . "Site" $.Site) -}}
+    </section>
+    {{- end }}
+  {{- end }}
+
+  {{- partial "footer.html" . -}}
+</main>
+{{- end -}}

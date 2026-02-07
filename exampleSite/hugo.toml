@@ -1,0 +1,338 @@
+baseURL = "/"
+title = "Name Surname"
+languageCode = "en-us"
+theme = "walgo-biolink"
+canonifyURLs = false
+relativeURLs = false
+enableRobotsTXT = true
+disableKinds = ["taxonomy", "term", "RSS", "section", "page", "sitemap"]
+
+[outputs]
+  home = ["HTML"]
+
+[minify]
+  disableXML = true
+  minifyOutput = true
+
+[build]
+  useResourceCacheWhen = "fallback"
+
+
+# ==============================================================================
+#  THEME CONFIG
+#  All settings go under [params]. Delete anything you don't need.
+# ==============================================================================
+[params]
+
+  # ── Profile ─────────────────────────────────────────────────────────────────
+  name        = "Name Surname"
+  title       = "Web3 Builder & Sui Ecosystem Developer"
+  bio         = "Founder of Ganbit Labs. Building Ganbitera, Walgo, and tools for the decentralized web on Sui and Walrus."
+  avatar      = "/favicon.svg"       # empty = show initials | "/photo.jpg" | "https://..."
+  favicon     = "/favicon.svg"
+  # avatarPosition = "50% 30%"       # CSS object-position (crop control)
+  # avatarZoom     = "1.2"           # scale factor (1.0 = default)
+
+  # ── Appearance ──────────────────────────────────────────────────────────────
+  defaultTheme  = "dark"             # "dark" or "light"
+  accentColor   = "#7C5CFC"          # accent color used across the theme
+
+  # Card style — pick one:
+  #   default, glass, brutal, terminal, neon
+  cardStyle = "brutal"
+
+  # Background image (optional — covers full page with dark overlay)
+  # backgroundImage = "/images/bg.jpg"   # local path or "https://..."
+
+  # Custom fonts (requires customFonts = true)
+  customFonts = true
+  fontFamily  = "Inter"              # any Google Font
+  monoFont    = "JetBrains Mono"     # any Google Font mono
+  # fontUrl   = ""                   # custom CSS URL instead of Google Fonts
+
+
+# ==============================================================================
+#  SECTION ORDER
+#  Controls which sections appear and in what order.
+#  Remove this block to use the default: socials → badges → wallets → links → projects
+#
+#  Available types: socials, badges, wallets, links, projects, text, image
+#
+#  Optional fields per section:
+#    title   — override the section heading
+#    key     — use a different data array (reuse templates with different data)
+#    marquee — badges only: true = scroll ticker, false = wrap (default)
+#
+#  You can use the same type multiple times with different keys:
+#    [[params.sections]]
+#      type  = "links"
+#      key   = "resources"           # reads [[params.resources]] instead of [[params.links]]
+#      title = "Resources"
+# ==============================================================================
+
+[[params.sections]]
+  type = "socials"
+
+[[params.sections]]
+  type    = "badges"
+  key     = "tech"
+  marquee = true
+  title   = "Tech Stack"
+
+[[params.sections]]
+  type  = "text"
+  key   = "announcement"
+  title = "Currently"
+
+[[params.sections]]
+  type = "links"
+  title = "Projects & Products"
+
+[[params.sections]]
+  type  = "image"
+  key   = "banner"
+
+[[params.sections]]
+  type  = "wallets"
+  title = "Tip Jars"
+
+[[params.sections]]
+  type  = "badges"
+  key   = "chains"
+  title = "Ecosystems"
+
+[[params.sections]]
+  type  = "links"
+  key   = "resources"
+  title = "Resources"
+
+[[params.sections]]
+  type = "projects"
+
+
+# ==============================================================================
+#  SOCIAL LINKS
+#  Built-in icons: x, github, discord, telegram, farcaster, lens,
+#                  mirror, youtube, linkedin, email
+#  Custom icon: icon = "/icons/custom.svg" or "https://..."
+# ==============================================================================
+
+[[params.socials]]
+  platform = "x"
+  url      = "https://x.com/namesurname"
+  label    = "X"
+
+[[params.socials]]
+  platform = "github"
+  url      = "https://github.com/namesurname"
+  label    = "GitHub"
+
+[[params.socials]]
+  platform = "discord"
+  url      = "https://discord.gg/ganbitera"
+  label    = "Discord"
+
+[[params.socials]]
+  platform = "telegram"
+  url      = "https://t.me/namesurname"
+  label    = "Telegram"
+
+[[params.socials]]
+  platform = "linkedin"
+  url      = "https://linkedin.com/in/namesurname"
+  label    = "LinkedIn"
+
+[[params.socials]]
+  platform = "email"
+  url      = "mailto:hello@ganbitlabs.io"
+  label    = "Email"
+
+
+# ==============================================================================
+#  BADGES — "tech" (scrolling ticker)
+#  Small label pills — use for tools, tech stack, skills, anything.
+#  Built-in icons: sui, ethereum, bitcoin, solana, polygon, avalanche
+#  Custom image: image = "/icons/badge.png" or "https://..."
+# ==============================================================================
+
+[[params.tech]]
+  name = "Go"
+
+[[params.tech]]
+  name = "React"
+
+[[params.tech]]
+  name = "Hugo"
+
+[[params.tech]]
+  name = "Move"
+
+[[params.tech]]
+  name = "TypeScript"
+
+[[params.tech]]
+  name = "Wails"
+
+[[params.tech]]
+  name = "Docker"
+
+[[params.tech]]
+  name = "PostgreSQL"
+
+
+# ==============================================================================
+#  TEXT — "announcement"
+#  Freeform text block. Supports **markdown** formatting.
+# ==============================================================================
+
+[params.announcement]
+  content = "Looking for **Move developers** to collaborate on Ganbitera. If you're building on Sui and want to join, [reach out on X](https://x.com/namesurname) or drop me an email."
+
+
+# ==============================================================================
+#  IMAGE — "banner"
+#  Full-width image block. Optional: url (clickable), caption.
+# ==============================================================================
+
+[params.banner]
+  src     = "/favicon.svg"
+  alt     = "Ganbit Labs banner"
+  # url   = "https://ganbitlabs.io"
+  caption = "Building the future of decentralized web"
+
+
+# ==============================================================================
+#  BADGES — "chains" (static wrap)
+#  Reusing the badges template with a different data key.
+# ==============================================================================
+
+[[params.chains]]
+  name = "Sui"
+  icon = "sui"
+  url  = "https://sui.io"
+
+[[params.chains]]
+  name = "Walrus"
+  url  = "https://walrus.xyz"
+
+[[params.chains]]
+  name = "Ethereum"
+  icon = "ethereum"
+  url  = "https://ethereum.org"
+
+[[params.chains]]
+  name = "Bitcoin"
+  icon = "bitcoin"
+
+
+# ==============================================================================
+#  WALLETS
+#  Built-in chain icons: sui, ethereum, bitcoin, solana, polygon, avalanche
+#  Custom icon: icon = "/icons/chain.svg" or "https://..."
+#  Explorer: URL ending with "/" auto-appends the address
+# ==============================================================================
+
+[[params.wallets]]
+  chain    = "sui"
+  label    = "Sui"
+  address  = "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef"
+  explorer = "https://suiscan.xyz/mainnet/account/"
+
+[[params.wallets]]
+  chain    = "ethereum"
+  label    = "Ethereum"
+  address  = "0x742d35Cc6634C0532925a3b844Bc9e7595f2bD18"
+  explorer = "https://etherscan.io/address/"
+
+
+# ==============================================================================
+#  LINKS — main links (shown as "Projects & Products")
+#  icon: emoji, local file ("/icons/link.svg"), or URL
+#  featured = true highlights the card
+# ==============================================================================
+
+[[params.links]]
+  title       = "Ganbitera"
+  description = "AI-powered NFT marketplace and launchpad on Sui"
+  url         = "https://ganbitera.io"
+  icon        = "🎨"
+  featured    = true
+
+[[params.links]]
+  title       = "Walgo"
+  description = "Open-source CLI to deploy Hugo sites on Walrus"
+  url         = "https://walgo.xyz"
+  icon        = "🚀"
+  featured    = true
+
+[[params.links]]
+  title       = "Ganbit Labs"
+  description = "Web3 studio building products on Sui and Walrus"
+  url         = "https://www.ganbitlabs.io"
+  icon        = "🧬"
+
+
+# ==============================================================================
+#  LINKS — "resources" (shown as "Resources")
+#  Reusing the links template with a different data key.
+# ==============================================================================
+
+[[params.resources]]
+  title       = "Walrus Protocol"
+  description = "Decentralized storage network powered by Sui"
+  url         = "https://walrus.xyz"
+  icon        = "🐋"
+
+[[params.resources]]
+  title       = "Sui Network"
+  description = "Layer 1 blockchain built with Move"
+  url         = "https://sui.io"
+  icon        = "💧"
+
+[[params.resources]]
+  title       = "Walgo on GitHub"
+  description = "Source code, issues, and contributions"
+  url         = "https://github.com/selimozten/walgo"
+  icon        = "📦"
+
+
+# ==============================================================================
+#  PROJECTS
+#  image: "/images/project.png" or "https://..."
+#  status: any string — "live", "building", "archived", "beta", etc.
+# ==============================================================================
+
+[[params.projects]]
+  name        = "Ganbitera"
+  description = "AI-powered NFT trading platform with neural market analysis on Sui Network"
+  url         = "https://ganbitera.io"
+  status      = "building"
+  tags        = ["AI", "NFT", "Sui", "Move"]
+
+[[params.projects]]
+  name        = "Walgo"
+  description = "Deploy Hugo sites to Walrus decentralized storage in minutes"
+  url         = "https://walgo.xyz"
+  status      = "live"
+  tags        = ["Go", "CLI", "Walrus", "Hugo"]
+
+[[params.projects]]
+  name        = "Ganbit Labs"
+  description = "Web3 product studio focused on Sui ecosystem tools and infrastructure"
+  url         = "https://www.ganbitlabs.io"
+  status      = "live"
+  tags        = ["Web3", "Sui", "Studio"]
+
+[[params.projects]]
+  name        = "Walgo Desktop"
+  description = "Desktop app for Walgo with visual site management and one-click deploys"
+  url         = "https://walgo.xyz"
+  status      = "beta"
+  tags        = ["Wails", "React", "Desktop"]
+
+[[params.projects]]
+  name        = "Walgo Biolink"
+  description = "Single-page link-in-bio Hugo theme optimized for Walrus storage"
+  url         = "https://github.com/ganbitlabs/walgo-biolink"
+  status      = "live"
+  tags        = ["Hugo", "Theme", "Walrus"]

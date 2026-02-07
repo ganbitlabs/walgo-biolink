@@ -1,0 +1,39 @@
+{{- $items := .Items -}}
+<div class="projects" data-page-size="4">
+  {{- $limit := 4 -}}
+  {{- $total := len $items -}}
+  {{- range $i, $item := $items }}
+  <a class="project-card{{ if ge $i $limit }} pager-hidden{{ end }}" href="{{ $item.url }}" target="_blank" rel="noopener noreferrer">
+    {{- with $item.image }}
+    <img src="{{ . }}" alt="{{ $item.name }}" class="project-card__image">
+    {{- end }}
+    <div class="project-card__header">
+      <span class="project-card__name">{{ $item.name }}</span>
+      {{- with $item.status }}
+      <span class="project-card__status project-card__status--{{ . }}">{{ . }}</span>
+      {{- end }}
+    </div>
+    {{- with $item.description }}
+    <p class="project-card__desc">{{ . }}</p>
+    {{- end }}
+    {{- with $item.tags }}
+    <div class="project-card__tags">
+      {{- range . }}
+      <span class="project-card__tag">{{ . }}</span>
+      {{- end }}
+    </div>
+    {{- end }}
+  </a>
+  {{- end }}
+  {{- if gt $total $limit }}
+  <nav class="pager" aria-label="Navigate projects">
+    <button class="pager__btn pager__prev" aria-label="Previous" disabled>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+    </button>
+    <span class="pager__count"></span>
+    <button class="pager__btn pager__next" aria-label="Next">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+    </button>
+  </nav>
+  {{- end }}
+</div>

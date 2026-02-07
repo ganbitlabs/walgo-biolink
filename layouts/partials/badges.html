@@ -1,0 +1,25 @@
+{{- $marquee := .Marquee -}}
+{{- $badges := .Items -}}
+
+<div class="badges{{ if $marquee }} badges--marquee{{ end }}">
+  {{- if $marquee }}<div class="badges__track">{{ end -}}
+  <div class="badges__set">
+    {{- range $badges }}
+    {{- $img := .image | default "" -}}
+    {{- if .url -}}
+    <a class="badge-item" href="{{ .url }}" target="_blank" rel="noopener noreferrer">
+      {{- if or (hasPrefix $img "/") (hasPrefix $img "http") -}}<img src="{{ $img }}" alt="{{ .name }}" class="badge-item__img">
+      {{- else }}{{- with .icon }}{{ $ic := index $.Site.Data.icons.badges . }}{{ with $ic }}<svg viewBox="{{ .viewBox }}" aria-hidden="true"><path d="{{ .path }}" fill="{{ .color | default "currentColor" }}"/></svg>{{ end }}{{ end }}{{ end -}}
+      <span>{{ .name }}</span>
+    </a>
+    {{- else -}}
+    <span class="badge-item">
+      {{- if or (hasPrefix $img "/") (hasPrefix $img "http") -}}<img src="{{ $img }}" alt="{{ .name }}" class="badge-item__img">
+      {{- else }}{{- with .icon }}{{ $ic := index $.Site.Data.icons.badges . }}{{ with $ic }}<svg viewBox="{{ .viewBox }}" aria-hidden="true"><path d="{{ .path }}" fill="{{ .color | default "currentColor" }}"/></svg>{{ end }}{{ end }}{{ end -}}
+      <span>{{ .name }}</span>
+    </span>
+    {{- end -}}
+    {{- end }}
+  </div>
+  {{- if $marquee }}</div>{{ end -}}
+</div>

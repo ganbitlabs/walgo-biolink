@@ -1,0 +1,50 @@
+{{- $items := .Items -}}
+<div class="wallets" data-page-size="4">
+  {{- $limit := 4 -}}
+  {{- $total := len $items -}}
+  {{- range $i, $item := $items }}
+  {{- $customIcon := $item.icon | default "" -}}
+  <div class="wallet{{ if ge $i $limit }} pager-hidden{{ end }}">
+    <div class="wallet__icon">
+      {{- if or (hasPrefix $customIcon "/") (hasPrefix $customIcon "http") }}
+      <img src="{{ $customIcon }}" alt="{{ $item.label }}" class="wallet__img">
+      {{- else }}
+      {{- $chainIcon := index $.Site.Data.icons.badges $item.chain -}}
+      {{- with $chainIcon }}
+      <svg viewBox="{{ .viewBox }}" aria-hidden="true"><path d="{{ .path }}" fill="{{ .color | default "currentColor" }}"/></svg>
+      {{- end }}
+      {{- end }}
+    </div>
+    <span class="wallet__label">{{ $item.label }}</span>
+    {{- $addr := $item.address -}}
+    {{- $truncated := $addr -}}
+    {{- if gt (len $addr) 16 -}}
+      {{- $truncated = printf "%s...%s" (substr $addr 0 8) (substr $addr (sub (len $addr) 6)) -}}
+    {{- end }}
+    <span class="wallet__address" title="{{ $addr }}">{{ $truncated }}</span>
+    <div class="wallet__actions">
+      <button class="wallet__btn" data-copy="{{ $addr }}" aria-label="Copy address" title="Copy">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+      </button>
+      {{- with $item.explorer }}
+      {{- $explorerUrl := . -}}
+      {{- if hasSuffix . "/" }}{{ $explorerUrl = printf "%s%s" . $addr }}{{ end }}
+      <a class="wallet__btn" href="{{ $explorerUrl }}" target="_blank" rel="noopener noreferrer" aria-label="View on explorer" title="Explorer">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 19H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg>
+      </a>
+      {{- end }}
+    </div>
+  </div>
+  {{- end }}
+  {{- if gt $total $limit }}
+  <nav class="pager" aria-label="Navigate wallets">
+    <button class="pager__btn pager__prev" aria-label="Previous" disabled>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+    </button>
+    <span class="pager__count"></span>
+    <button class="pager__btn pager__next" aria-label="Next">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+    </button>
+  </nav>
+  {{- end }}
+</div>

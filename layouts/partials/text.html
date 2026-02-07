@@ -1,0 +1,6 @@
+{{- $item := .Items -}}
+{{- with $item.content }}
+<div class="bio-text">
+  {{ . | markdownify }}
+</div>
+{{- end }}
