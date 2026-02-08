@@ -67,9 +67,13 @@ disableKinds = ["taxonomy", "term", "RSS", "section", "page", "sitemap"]
   # Card style — pick one:
   #   default, glass, brutal, terminal, neon
   cardStyle = "brutal"
+  # cardOpacity = 0.6                    # card transparency: 1.0 (solid) → 0.0 (fully transparent)
+
 
   # Background image (optional — covers full page with dark overlay)
   # backgroundImage = "/images/bg.jpg"   # local path or "https://..."
+  # backgroundOpacity = 0.85             # overlay opacity: 0.0 (image visible) → 1.0 (image hidden)
+  #                                      # adds frosted glass blur, best paired with backgroundImage
 
   # ── Fonts ───────────────────────────────────────────────────────────────────
   # Requires customFonts = true. The theme bundles Inter and JetBrains Mono

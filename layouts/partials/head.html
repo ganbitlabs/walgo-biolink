@@ -78,6 +78,7 @@
 
 {{/* Background Image (opt-in) */}}
 {{- with .Site.Params.backgroundImage }}
+{{- $opacity := $.Site.Params.backgroundOpacity | default 0.85 }}
 <style>
   body {
     background-image: url('{{ . }}');
@@ -92,7 +93,22 @@
     inset: 0;
     z-index: -1;
     background: var(--bg-0);
-    opacity: 0.85;
+    opacity: {{ $opacity }};
+  }
+</style>
+{{- end }}
+
+{{/* Card Opacity — makes cards semi-transparent (useful with backgroundImage) */}}
+{{- with .Site.Params.cardOpacity }}
+{{- $transparent := printf "%.0f" (mul (sub 1.0 (float .)) 100) }}
+<style>
+  .bio-section,
+  .link-card,
+  .project-card,
+  .wallet {
+    background: color-mix(in srgb, var(--bg-1), transparent {{ $transparent }}%);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
   }
 </style>
 {{- end }}
