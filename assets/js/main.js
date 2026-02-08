@@ -197,6 +197,29 @@
         showPage(currentPage + 1, 1);
       });
     }
+
+    /* Touch swipe support */
+    var touchStartX = 0;
+    var touchStartY = 0;
+    var SWIPE_THRESHOLD = 50;
+
+    container.addEventListener("touchstart", function (e) {
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+    }, { passive: true });
+
+    container.addEventListener("touchend", function (e) {
+      var dx = e.changedTouches[0].clientX - touchStartX;
+      var dy = e.changedTouches[0].clientY - touchStartY;
+      /* Only trigger if horizontal swipe is dominant */
+      if (Math.abs(dx) > SWIPE_THRESHOLD && Math.abs(dx) > Math.abs(dy) * 1.5) {
+        if (dx < 0) {
+          showPage(currentPage + 1, 1);
+        } else {
+          showPage(currentPage - 1, -1);
+        }
+      }
+    }, { passive: true });
   });
 
   /* -------------------------------------------------------------------------
@@ -223,6 +246,13 @@
       var dur = Math.max(6, setW / 50);
       track.style.setProperty("--badge-dur", dur.toFixed(1) + "s");
     }
+
+    /* Touch/click toggle for pause — works on mobile where hover doesn't */
+    marqueeEl.addEventListener("click", function (e) {
+      /* Don't toggle if user tapped on a badge link */
+      if (e.target.closest("a")) return;
+      marqueeEl.classList.toggle("badges--paused");
+    });
   }
 
   /* -------------------------------------------------------------------------

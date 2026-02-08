@@ -14,7 +14,7 @@
     {{- with .Site.Params.avatar }}
     {{- $pos := $.Site.Params.avatarPosition | default "center" -}}
     {{- $zoom := $.Site.Params.avatarZoom | default "" -}}
-    <img class="profile__avatar" src="{{ if hasPrefix . "http" }}{{ . }}{{ else }}{{ . | relURL }}{{ end }}" alt="{{ $.Site.Params.name | default "Profile photo" }}" width="120" height="120" style="object-position:{{ $pos }}{{ with $zoom }};transform:scale({{ . }}){{ end }}">
+    <img class="profile__avatar" src="{{ if hasPrefix . "http" }}{{ . }}{{ else }}{{ . | relURL }}{{ end }}" alt="{{ $.Site.Params.name | default "Profile photo" }}" width="120" height="120" decoding="async" fetchpriority="high" style="object-position:{{ $pos }}{{ with $zoom }};transform:scale({{ . }}){{ end }}">
     {{- else }}
     {{- $name := .Site.Params.name | default .Site.Title | default "?" -}}
     {{- $words := split $name " " -}}

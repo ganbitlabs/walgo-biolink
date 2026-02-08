@@ -5,7 +5,7 @@
 {{- if $item.url }}
 <figure class="bio-image">
   <a href="{{ $item.url }}" target="_blank" rel="noopener noreferrer">
-    <img src="{{ . }}" alt="{{ $alt }}" class="bio-image__img">
+    <img src="{{ . }}" alt="{{ $alt }}" class="bio-image__img" loading="lazy" decoding="async">
   </a>
   {{- with $caption }}
   <figcaption class="bio-image__caption">{{ . }}</figcaption>
@@ -13,7 +13,7 @@
 </figure>
 {{- else }}
 <figure class="bio-image">
-  <img src="{{ . }}" alt="{{ $alt }}" class="bio-image__img">
+  <img src="{{ . }}" alt="{{ $alt }}" class="bio-image__img" loading="lazy" decoding="async">
   {{- with $caption }}
   <figcaption class="bio-image__caption">{{ . }}</figcaption>
   {{- end }}

@@ -4,7 +4,7 @@
   {{- range . }}
   <a class="social-row__link" href="{{ .url }}" target="_blank" rel="noopener noreferrer" aria-label="{{ .label | default .platform }}" title="{{ .label | default .platform }}">
     {{- if or (hasPrefix .icon "/") (hasPrefix .icon "http") }}
-    <img src="{{ .icon }}" alt="{{ .label | default .platform }}" class="social-row__img">
+    <img src="{{ .icon }}" alt="{{ .label | default .platform }}" class="social-row__img" loading="lazy" decoding="async">
     {{- else }}
     {{- $svgIcon := index $.Site.Data.icons.social .platform -}}
     {{- with $svgIcon }}

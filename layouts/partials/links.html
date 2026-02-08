@@ -7,7 +7,7 @@
     {{- with $item.icon }}
     <span class="link-card__icon">
       {{- if or (hasPrefix . "/") (hasPrefix . "http") -}}
-      <img src="{{ . }}" alt="" aria-hidden="true" class="link-card__img">
+      <img src="{{ . }}" alt="" aria-hidden="true" class="link-card__img" loading="lazy" decoding="async">
       {{- else -}}
       {{ . }}
       {{- end -}}

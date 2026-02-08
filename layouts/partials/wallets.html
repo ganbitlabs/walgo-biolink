@@ -7,7 +7,7 @@
   <div class="wallet{{ if ge $i $limit }} pager-hidden{{ end }}">
     <div class="wallet__icon">
       {{- if or (hasPrefix $customIcon "/") (hasPrefix $customIcon "http") }}
-      <img src="{{ $customIcon }}" alt="{{ $item.label }}" class="wallet__img">
+      <img src="{{ $customIcon }}" alt="{{ $item.label }}" class="wallet__img" loading="lazy" decoding="async">
       {{- else }}
       {{- $chainIcon := index $.Site.Data.icons.badges $item.chain -}}
       {{- with $chainIcon }}

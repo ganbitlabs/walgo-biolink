@@ -22,18 +22,44 @@
 <meta name="twitter:image" content="{{ . | absURL }}">
 {{- end }}
 
-{{/* CSS — single bundle */}}
-{{- $css := resources.Get "css/main.css" | minify | fingerprint -}}
-<link rel="stylesheet" href="{{ $css.RelPermalink }}">
+{{/* CSS — inlined to eliminate blob fetch */}}
+{{- $css := resources.Get "css/main.css" -}}
+<style>{{ $css.Content | safeCSS }}</style>
 
-{{/* Custom Fonts (opt-in) — loads from Google Fonts */}}
+{{/* Custom Fonts (opt-in) */}}
 {{- if .Site.Params.customFonts }}
 {{- $sansFont := .Site.Params.fontFamily | default "Inter" -}}
 {{- $monoFont := .Site.Params.monoFont | default "" -}}
 {{- $fontUrl := .Site.Params.fontUrl | default "" -}}
+{{- $selfHost := not .Site.Params.disableSelfHostFonts -}}
 {{- if $fontUrl }}
 <link rel="stylesheet" href="{{ $fontUrl }}">
+{{- else if and $selfHost (eq $sansFont "Inter") }}
+{{/* Self-hosted fonts — no external requests */}}
+<link rel="preload" href="{{ "fonts/inter.woff2" | relURL }}" as="font" type="font/woff2" crossorigin>
+{{- if or (eq $monoFont "JetBrains Mono") (not $monoFont) }}
+<link rel="preload" href="{{ "fonts/jetbrains-mono.woff2" | relURL }}" as="font" type="font/woff2" crossorigin>
+{{- end }}
+<style>
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400 800;
+    font-display: swap;
+    src: url('{{ "fonts/inter.woff2" | relURL }}') format('woff2');
+  }
+  {{- if or (eq $monoFont "JetBrains Mono") (not $monoFont) }}
+  @font-face {
+    font-family: 'JetBrains Mono';
+    font-style: normal;
+    font-weight: 400 700;
+    font-display: swap;
+    src: url('{{ "fonts/jetbrains-mono.woff2" | relURL }}') format('woff2');
+  }
+  {{- end }}
+</style>
 {{- else }}
+{{/* Fallback to Google Fonts for non-bundled fonts */}}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 {{- $families := printf "%s:wght@400;500;600;700;800" (replace $sansFont " " "+") -}}
