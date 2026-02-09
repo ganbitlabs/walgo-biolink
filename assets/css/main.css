@@ -625,6 +625,48 @@ a.badge-item:hover {
   margin-top: var(--gap-sm);
 }
 
+.bio-text--collapsed {
+  max-height: 6em;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to bottom, #000 40%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 40%, transparent 100%);
+}
+
+.bio-text--expanded {
+  max-height: none;
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+
+.bio-text__toggle[hidden] {
+  display: none;
+}
+
+.bio-text__toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: var(--gap-xs);
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--accent);
+  font-size: 0.8125rem;
+  font-family: inherit;
+  cursor: pointer;
+  opacity: 0.85;
+  transition: opacity 0.15s ease;
+}
+
+.bio-text__toggle:hover {
+  opacity: 1;
+}
+
+.bio-text__toggle[aria-expanded="false"] .bio-text__toggle-less,
+.bio-text__toggle[aria-expanded="true"] .bio-text__toggle-more {
+  display: none;
+}
+
 /* -----------------------------------------------------------------------------
    Image
    ----------------------------------------------------------------------------- */
@@ -951,8 +993,16 @@ a:hover .bio-image__img {
   .profile__theme-toggle,
   .wallet__btn,
   .bio-footer,
-  .pager {
+  .pager,
+  .bio-text__toggle {
     display: none;
+  }
+
+  .bio-text--collapsed {
+    max-height: none;
+    overflow: visible;
+    -webkit-mask-image: none;
+    mask-image: none;
   }
 
   .pager-hidden {

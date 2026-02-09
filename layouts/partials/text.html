@@ -1,6 +1,10 @@
 {{- $item := .Items -}}
 {{- with $item.content }}
-<div class="bio-text">
+<div class="bio-text" data-collapsible>
   {{ . | markdownify }}
 </div>
+<button class="bio-text__toggle" aria-expanded="false" hidden>
+  <span class="bio-text__toggle-more">Read more</span>
+  <span class="bio-text__toggle-less">Show less</span>
+</button>
 {{- end }}

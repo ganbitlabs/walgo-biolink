@@ -256,6 +256,38 @@
   }
 
   /* -------------------------------------------------------------------------
+     Text Collapsible — truncate long text blocks with "Read more"
+     ------------------------------------------------------------------------- */
+  var collapsibles = document.querySelectorAll("[data-collapsible]");
+
+  collapsibles.forEach(function (el) {
+    var toggle = el.nextElementSibling;
+    if (!toggle || !toggle.classList.contains("bio-text__toggle")) return;
+
+    /* Check if natural height exceeds the collapse threshold (6em) */
+    var naturalHeight = el.scrollHeight;
+    var maxHeight = parseFloat(getComputedStyle(el).fontSize) * 6;
+    if (naturalHeight <= maxHeight) return;
+
+    el.classList.add("bio-text--collapsed");
+
+    toggle.hidden = false;
+
+    toggle.addEventListener("click", function () {
+      var isExpanded = el.classList.contains("bio-text--expanded");
+      if (isExpanded) {
+        el.classList.remove("bio-text--expanded");
+        el.classList.add("bio-text--collapsed");
+        toggle.setAttribute("aria-expanded", "false");
+      } else {
+        el.classList.remove("bio-text--collapsed");
+        el.classList.add("bio-text--expanded");
+        toggle.setAttribute("aria-expanded", "true");
+      }
+    });
+  });
+
+  /* -------------------------------------------------------------------------
      Copy to Clipboard
      ------------------------------------------------------------------------- */
   document.addEventListener("click", function (e) {

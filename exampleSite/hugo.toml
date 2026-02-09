@@ -218,6 +218,18 @@ disableKinds = ["taxonomy", "term", "RSS", "section", "page", "sitemap"]
 # ==============================================================================
 #  TEXT — "announcement"
 #  Freeform text block. Supports **markdown** formatting.
+#
+#  For multi-line content, use TOML triple quotes ("""):
+#
+#    content = """
+#    First paragraph with **bold** and [links](https://example.com).
+#
+#    Second paragraph starts after a blank line.
+#
+#    - Bullet lists work too
+#    - Just use standard markdown
+#    """
+#
 # ==============================================================================
 
 [params.announcement]
