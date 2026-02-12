@@ -3,7 +3,7 @@
 <title>{{ with .Site.Params.name }}{{ . }}{{ end }}{{ with .Site.Params.title }} &mdash; {{ . }}{{ end }}</title>
 <meta name="description" content="{{ .Site.Params.bio | default .Site.Params.title | default "" }}">
 {{- $favicon := .Site.Params.favicon | default "/favicon.svg" }}
-<link rel="icon" href="{{ $favicon | relURL }}" type="image/svg+xml">
+<link rel="icon" href="{{ if hasPrefix $favicon "http" }}{{ $favicon }}{{ else }}{{ $favicon | relURL }}{{ end }}" type="image/svg+xml">
 
 {{/* Open Graph */}}
 <meta property="og:title" content="{{ .Site.Params.name | default .Site.Title }}{{ with .Site.Params.title }} &mdash; {{ . }}{{ end }}">

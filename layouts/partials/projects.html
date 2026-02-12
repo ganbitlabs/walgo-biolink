@@ -5,7 +5,7 @@
   {{- range $i, $item := $items }}
   <a class="project-card{{ if ge $i $limit }} pager-hidden{{ end }}" href="{{ $item.url }}" target="_blank" rel="noopener noreferrer">
     {{- with $item.image }}
-    <img src="{{ . }}" alt="{{ $item.name }}" class="project-card__image" loading="lazy" decoding="async">
+    <img src="{{ if hasPrefix . "http" }}{{ . }}{{ else }}{{ . | relURL }}{{ end }}" alt="{{ $item.name }}" class="project-card__image" loading="lazy" decoding="async">
     {{- end }}
     <div class="project-card__header">
       <span class="project-card__name">{{ $item.name }}</span>
