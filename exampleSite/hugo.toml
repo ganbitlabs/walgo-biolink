@@ -1,3 +1,4 @@
+# ─── Hugo Settings (don't modify unless you know what you're doing) ──────────
 baseURL = "/"
 title = "BioLink_Test"
 languageCode = "en-us"
@@ -27,7 +28,7 @@ disableKinds = ["taxonomy", "term", "RSS", "section", "page", "sitemap"]
   name    = "Name Surname"
   title   = "My Title"
   bio     = "A short introduction capturing the essence of my undeniable coolness, unconventional thinking, and ability to turn ideas into reality."
-  # empty = show initials | "/photo.jpg" | "https://..."
+  # avatar: empty = show initials | "/photo.jpg" | "https://..."
   avatar  = "/favicon.svg"
   favicon = "/favicon.svg"
   # CSS object-position (crop control)
@@ -51,14 +52,15 @@ disableKinds = ["taxonomy", "term", "RSS", "section", "page", "sitemap"]
   # backgroundOpacity = 0.85
 
   # ── Fonts ────────────────────────────────────────────────────────────────────
-  # Inter & JetBrains Mono are bundled as WOFF2 (zero external requests).
-  # Change to any Google Font name to load from fonts.googleapis.com.
-  customFonts = true
-  fontFamily  = "Inter"
-  monoFont    = "JetBrains Mono"
+  # Set customFonts = true to enable custom fonts.
+  # By default, Inter & JetBrains Mono are self-hosted as WOFF2 (zero external requests).
+  # Change fontFamily to any Google Font name to load from fonts.googleapis.com.
+  customFonts = false
+  # fontFamily  = "Inter"
+  # monoFont    = "JetBrains Mono"
   # force Google Fonts even for bundled fonts
   # disableSelfHostFonts = true
-  # custom CSS URL instead of Google Fonts
+  # custom CSS URL instead of Google Fonts (also set fontFamily to match)
   # fontUrl = ""
 
 
