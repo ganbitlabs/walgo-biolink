@@ -38,7 +38,7 @@
 
   {{/* Bio */}}
   {{- with .Site.Params.bio }}
-  <p class="profile__bio">{{ . }}</p>
+  <div class="profile__bio">{{ . | markdownify }}</div>
   {{- end }}
 
 </section>

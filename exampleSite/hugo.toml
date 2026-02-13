@@ -27,7 +27,9 @@ disableKinds = ["taxonomy", "term", "RSS", "section", "page", "sitemap"]
   # ── Profile ──────────────────────────────────────────────────────────────────
   name    = "Name Surname"
   title   = "My Title"
-  bio     = "A short introduction capturing the essence of my undeniable coolness, unconventional thinking, and ability to turn ideas into reality."
+  bio     = """A short introduction capturing the essence of my **undeniable coolness**, unconventional thinking, and ability to turn ideas into reality.
+
+Check out my [latest project](https://example.com)."""
   # avatar: empty = show initials | "/photo.jpg" | "https://..."
   avatar  = "/favicon.svg"
   favicon = "/favicon.svg"
