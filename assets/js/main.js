@@ -256,6 +256,170 @@
   }
 
   /* -------------------------------------------------------------------------
+     Image Slider — autoplay, arrows, dots, swipe, keyboard
+     ------------------------------------------------------------------------- */
+  var sliders = document.querySelectorAll("[data-slider]");
+  var reducedMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var resizeTimer;
+
+  /* Single global resize handler — debounced */
+  window.addEventListener("resize", function () {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function () {
+      sliders.forEach(function (s) { if (s._sync) s._sync(); });
+    }, 150);
+  });
+
+  /* Single global visibilitychange handler */
+  document.addEventListener("visibilitychange", function () {
+    sliders.forEach(function (s) {
+      if (!s._auto) return;
+      document.hidden ? s._auto.stop() : s._auto.start();
+    });
+  });
+
+  sliders.forEach(function (slider) {
+    var track = slider.querySelector(".slider__track");
+    var slides = slider.querySelectorAll(".slider__slide");
+    if (!track || slides.length < 2) return;
+
+    var total = slides.length;
+    var cur = 0;
+    var doAutoplay = slider.getAttribute("data-autoplay") === "true" && !reducedMotion;
+    var ms = parseInt(slider.getAttribute("data-interval"), 10) || 4000;
+    var timer = null;
+    var sliderW = 0; /* cached for touch, updated on touchstart */
+    var prevSlide = slides[0];
+
+    var section = slider.closest(".bio-section");
+    var pager = section ? section.querySelector(".pager") : null;
+    var prevBtn = pager ? pager.querySelector(".pager__prev") : null;
+    var nextBtn = pager ? pager.querySelector(".pager__next") : null;
+    var countEl = pager ? pager.querySelector(".pager__count") : null;
+
+    function syncHeight() {
+      var h = slides[cur].scrollHeight;
+      if (h > 0) track.style.height = h + "px";
+    }
+
+    /* Expose for global handlers */
+    slider._sync = syncHeight;
+
+    function goTo(idx) {
+      if (idx < 0) idx = total - 1;
+      if (idx >= total) idx = 0;
+      cur = idx;
+      track.style.transform = "translateX(-" + (cur * 100) + "%)";
+
+      /* Force lazy image to load */
+      var img = slides[cur].querySelector("img[loading=lazy]");
+      if (img) img.loading = "eager";
+
+      syncHeight();
+
+      /* Update pager counter + button states */
+      if (countEl) countEl.textContent = (cur + 1) + " / " + total;
+      if (prevBtn) prevBtn.disabled = cur === 0;
+      if (nextBtn) nextBtn.disabled = cur === total - 1;
+
+      /* Update only the changed slide aria */
+      prevSlide.setAttribute("aria-hidden", "true");
+      slides[cur].setAttribute("aria-hidden", "false");
+      prevSlide = slides[cur];
+    }
+
+    /* Init aria */
+    for (var si = 1; si < total; si++) slides[si].setAttribute("aria-hidden", "true");
+
+    /* Recalculate height when images load, self-removing */
+    slider.querySelectorAll("img").forEach(function (img) {
+      function onLoad() {
+        syncHeight();
+        img.removeEventListener("load", onLoad);
+      }
+      if (img.complete) return;
+      img.addEventListener("load", onLoad);
+    });
+
+    syncHeight();
+
+    /* Autoplay */
+    function start() {
+      if (!doAutoplay) return;
+      stop();
+      timer = setInterval(function () { goTo(cur + 1); }, ms);
+    }
+    function stop() {
+      if (timer) { clearInterval(timer); timer = null; }
+    }
+    function restart() { stop(); start(); }
+
+    /* Expose for global visibilitychange */
+    slider._auto = { start: start, stop: stop };
+
+    /* Event delegation — pager buttons (pager is sibling in bio-section) */
+    if (pager) {
+      pager.addEventListener("click", function (e) {
+        var btn = e.target.closest(".pager__btn");
+        if (btn) {
+          goTo(cur + (btn.classList.contains("pager__prev") ? -1 : 1));
+          restart();
+        }
+      });
+    }
+
+    /* Keyboard */
+    slider.setAttribute("tabindex", "0");
+    slider.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
+        e.preventDefault();
+        goTo(cur + (e.key === "ArrowLeft" ? -1 : 1));
+        restart();
+      }
+    });
+
+    /* Pause on hover / focus */
+    slider.addEventListener("mouseenter", stop);
+    slider.addEventListener("focusin", stop);
+    slider.addEventListener("mouseleave", start);
+    slider.addEventListener("focusout", start);
+
+    start();
+
+    /* Touch swipe */
+    var tx0 = 0, ty0 = 0, tdx = 0, swiping = false;
+
+    slider.addEventListener("touchstart", function (e) {
+      tx0 = e.touches[0].clientX;
+      ty0 = e.touches[0].clientY;
+      tdx = 0;
+      swiping = false;
+      sliderW = slider.offsetWidth; /* cache once per gesture */
+      track.classList.add("slider__track--dragging");
+    }, { passive: true });
+
+    slider.addEventListener("touchmove", function (e) {
+      var dx = e.touches[0].clientX - tx0;
+      if (!swiping && Math.abs(dx) > 10) {
+        swiping = Math.abs(dx) > Math.abs(e.touches[0].clientY - ty0);
+      }
+      if (swiping) {
+        tdx = dx;
+        track.style.transform = "translateX(" + (-(cur * 100) + (dx / sliderW) * 100) + "%)";
+      }
+    }, { passive: true });
+
+    slider.addEventListener("touchend", function () {
+      track.classList.remove("slider__track--dragging");
+      if (swiping) {
+        goTo(tdx < -40 ? cur + 1 : tdx > 40 ? cur - 1 : cur);
+        restart();
+      }
+      swiping = false;
+    }, { passive: true });
+  });
+
+  /* -------------------------------------------------------------------------
      Text Collapsible — truncate long text blocks with "Read more"
      ------------------------------------------------------------------------- */
   var collapsibles = document.querySelectorAll("[data-collapsible]");

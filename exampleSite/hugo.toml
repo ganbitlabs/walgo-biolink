@@ -68,7 +68,7 @@ Check out my [latest project](https://example.com)."""
 
 # ─── Section Order ───────────────────────────────────────────────────────────
 # Controls which sections appear and in what order.
-# Available types: socials, badges, wallets, links, projects, text, image
+# Available types: socials, badges, wallets, links, projects, text, image, slider
 # Use "key" to point to a different data array, "title" to override heading.
 
 [[params.sections]]
@@ -92,6 +92,13 @@ Check out my [latest project](https://example.com)."""
 [[params.sections]]
   type = "image"
   key  = "banner"
+
+[[params.sections]]
+  type     = "slider"
+  key      = "gallery"
+  title    = "Gallery"
+  autoplay = true
+  interval = 4000
 
 [[params.sections]]
   type  = "wallets"
@@ -194,6 +201,23 @@ P.S. This masterpiece is designed for 175 characters of premium storytelling spa
   # url   = "https://ganbitlabs.io"
   caption = "Building the future of decentralized web"
 
+
+# ─── Slider: Gallery ─────────────────────────────────────────────────────────
+# Image carousel. Optional "url" makes the slide clickable.
+# aspectRatio: optional, e.g. "16/9", "4/3", "1/1" — crops to fill that ratio.
+#              Omit for natural image dimensions (no crop).
+
+[[params.gallery]]
+  src         = "https://cdn.prod.website-files.com/6864f039b26f4afedada6bc5/6864f039b26f4afedada6c10_logo.svg"
+  alt         = "Walrus"
+  description = "Decentralized storage on Sui"
+  url         = "https://walrus.xyz"
+
+[[params.gallery]]
+  src         = "/favicon.svg"
+  alt         = "Walgo"
+  description = "Deploy Hugo sites on Walrus"
+  url         = "https://walgo.xyz"
 
 # ─── Badges: Ecosystems (static wrap) ───────────────────────────────────────
 # Built-in icons: sui, ethereum, bitcoin, solana, polygon, avalanche

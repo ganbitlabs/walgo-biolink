@@ -1,0 +1,30 @@
+{{- $items := .Items -}}
+{{- $count := len $items -}}
+{{- $autoplay := .Autoplay -}}
+{{- $interval := .Interval -}}
+
+<div class="slider" role="region" aria-roledescription="carousel" aria-label="Image slider" data-slider data-autoplay="{{ $autoplay }}" data-interval="{{ $interval }}">
+  <div class="slider__track">
+    {{- range $i, $slide := $items }}
+    {{- $src := .src -}}
+    {{- $imgSrc := cond (hasPrefix $src "http") $src ($src | relURL) -}}
+    {{- $alt := .alt | default "" -}}
+    {{- $ratio := .aspectRatio | default "" -}}
+    {{- $imgStyle := "" -}}
+    {{- with $ratio }}{{ $imgStyle = printf "aspect-ratio:%s;object-fit:cover" . }}{{ end -}}
+    {{- $desc := .description | default "" -}}
+    <div class="slider__slide" role="group" aria-roledescription="slide" aria-label="Slide {{ add $i 1 }} of {{ $count }}">
+      {{- if .url }}
+      <a href="{{ .url }}" target="_blank" rel="noopener noreferrer">
+        <img src="{{ $imgSrc }}" alt="{{ $alt }}" class="slider__img"{{ with $imgStyle }} style="{{ . | safeCSS }}"{{ end }} {{ if eq $i 0 }}loading="eager"{{ else }}loading="lazy"{{ end }} decoding="async">
+      </a>
+      {{- else }}
+      <img src="{{ $imgSrc }}" alt="{{ $alt }}" class="slider__img"{{ with $imgStyle }} style="{{ . | safeCSS }}"{{ end }} {{ if eq $i 0 }}loading="eager"{{ else }}loading="lazy"{{ end }} decoding="async">
+      {{- end }}
+      {{- with $desc }}
+      <p class="slider__desc">{{ . }}</p>
+      {{- end }}
+    </div>
+    {{- end }}
+  </div>
+</div>
