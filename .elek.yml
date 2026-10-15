@@ -1,0 +1,19 @@
+review_strategy: crosscheck
+severity_threshold: important
+
+knowledge_paths:
+  - AGENTS.md
+  - README.md
+
+ignore_paths:
+  - public/**
+  - exampleSite/public/**
+  - resources/_gen/**
+  - exampleSite/resources/_gen/**
+  - static/fonts/**
+
+instructions:
+  - "Theme config keys are a public contract for exampleSite users: [params] keys, their defaults, section types, and partial names used by existing hugo.toml files must keep working. Flag renamed or removed keys and changed defaults unless the PR keeps a fallback, and require new keys to be documented in exampleSite/hugo.toml and the README."
+  - "Wallet addresses, explorer links, and social/link URLs come from user config: flag templates or JS that render config or content values without escaping (new safeHTML, safeJS, safeURL, safeCSS, or innerHTML on user values) or that allow javascript: URLs."
+  - "Sites are deployed to Walrus with the walgo CLI and served under portal subdomains: asset and page links must go through relURL, absURL, RelPermalink, or Hugo resources, never hard-coded root paths. Flag new external scripts, CDNs, or trackers; the theme has no runtime JS dependencies, and external font CSS loads only through the opt-in customFonts/fontUrl params."
+  - "This repository is public: flag anything that leaks secrets or private infrastructure details."
